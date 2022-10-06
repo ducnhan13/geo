@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <title>homework</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.21/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.21/"></script>
+    <script>
+      require([
+        "esri/config",
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/Graphic",
+        "esri/layers/GraphicsLayer",
+      ], function (esriConfig, Map, MapView, Graphic, GraphicsLayer) {
+        const map = new Map({
+          basemap: "streets-navigation-vector",
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          zoom: 5,
+          center: [106.8, 10.8],
+          // zoom: 13.83,
+          // center: [106.3570692, 10.3908609], //this is my hometown
+        });
+
+        const graphicsLayer = new GraphicsLayer();
+
+        // ------ create point
+        // create marker: university, park, museum, bridge
+        const university = {
+          type: "picture-marker",
+          url: "/university.png",
+          height: 24,
+          width: 24,
+        };
+        const park = {
+          type: "picture-marker",
+          url: "/park.png",
+          height: 24,
+          width: 24,
+        };
+        const museum = {
+          type: "picture-marker",
+          url: "/museum.png",
+          height: 24,
+          width: 24,
+        };
+        const bridge = {
+          type: "picture-marker",
+          url: "/bridge.png",
+          height: 24,
+          width: 24,
+        };
+        // -----------------------------------------------------------------------
+        // create an uni
+        const geo_dhtg = {
+          type: "point",
+          longitude: 106.33166889294279,
+          latitude: 10.425151762079274,
+        };
+        const info_dhtg = {
+          title: "Trường Đại học",
+          content: "Đại học Tiền Giang",
+        };
+        const dhtg = new Graphic({
+          geometry: geo_dhtg,
+          symbol: university,
+          popupTemplate: info_dhtg,
+          attributes: info_dhtg,
+        });
+        graphicsLayer.add(dhtg); //add point to layer
+        // -----------------------------------------------------------------------
+        // another university....
+
+        // -----------------------------------------------------------------------
+        // create a park
+        const geo_cvtetmauthan = {
+          type: "point",
+          longitude: 106.36097548180204,
+          latitude: 10.361228019590577,
+        };
+        const info_cvtetmauthan = {
+          title: "Công viên",
+          content: "Công viên Tết Mậu Thân",
+        };
+        const cvtetmauthan = new Graphic({
+          geometry: geo_cvtetmauthan,
+          symbol: park,
+          popupTemplate: info_cvtetmauthan,
+          attributes: info_cvtetmauthan,
+        });
+        graphicsLayer.add(cvtetmauthan); //add point to layer
+        // -----------------------------------------------------------------------
+        // another park....
+
+        // -----------------------------------------------------------------------
+        // create a museum
+        const geo_bttg = {
+          type: "point",
+          longitude: 106.36592219338344,
+          latitude: 10.36297208116487,
+        };
+        const info_bttg = {
+          title: "Bảo tàng",
+          content: "Bảo tàng Tiền Giang",
+        };
+        const bttg = new Graphic({
+          geometry: geo_bttg,
+          symbol: museum,
+          popupTemplate: info_bttg,
+          attributes: info_bttg,
+        });
+        graphicsLayer.add(bttg); //add point to layer
+        // -----------------------------------------------------------------------
+        // another museum....
+
+        // -----------------------------------------------------------------------
+        // create a bridge
+        const geo_crm = {
+          type: "point",
+          longitude: 106.34236277880034,
+          latitude: 10.34410748758982,
+        };
+        const info_crm = {
+          title: "Bảo tàng",
+          content: "Bảo tàng Tiền Giang",
+        };
+        const crm = new Graphic({
+          geometry: geo_crm,
+          symbol: bridge,
+          popupTemplate: info_crm,
+          attributes: info_crm,
+        });
+        graphicsLayer.add(crm); //add point to layer
+        // -----------------------------------------------------------------------
+        // another bridge....
+
+        // -----------------------------------------------------------------------
+        // ------ end of point
+        // add layer to map
+        map.add(graphicsLayer);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>

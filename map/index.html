@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <title>Sân vận động Quốc gia Mỹ Đình</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.21/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.21/"></script>
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/SceneView",
+        "esri/layers/GraphicsLayer",
+        "esri/Graphic",
+        "esri/layers/GeoJSONLayer",
+        "esri/layers/SceneLayer",
+        "esri/request",
+      ], (
+        Map,
+        SceneView,
+        GraphicsLayer,
+        Graphic,
+        GeoJSONLayer,
+        SceneLayer,
+        esriRequest
+      ) => {
+        var createGraphic = function (data) {
+          return new Graphic({
+            geometry: data,
+            symbol: data.symbol,
+            attributes: data,
+            popupTemplate: data.popupTemplate,
+          });
+        };
+        const json_options = {
+          query: {
+            f: "json",
+          },
+          responseType: "json",
+        };
+
+        // // -----request json-template-----
+        // esriRequest("./sample.json", json_options).then((response) => {
+        //   const graphicsLayer = new GraphicsLayer();
+        //   response.data.forEach((data) => {
+        //     graphicsLayer.add(createGraphic(data));
+        //   });
+        //   map.add(graphicsLayer);
+        // });
+
+        // // -----request geojson-template-----
+        // // https://geojson.io/
+        // const geojsonLayer_sample = new GeoJSONLayer({
+        //   url: "./sample.geojson",
+        // });
+        // geojsonLayer_sample.renderer = {
+        //   type: "simple",
+        //   symbol: {
+        //     type: "polygon-3d",
+        //     symbolLayers: [
+        //       {
+        //         type: "extrude",
+        //         size: 1,
+        //         material: {
+        //           // can change color here
+        //           color: "#ffffff",
+        //         },
+        //       },
+        //     ],
+        //   },
+        // };
+
+        // // test
+        // const geojson_test = new GeoJSONLayer({
+        //   url: "./test.geojson",
+        // });
+        // geojson_test.renderer = {
+        //   type: "simple",
+        //   symbol: {
+        //     type: "line-3d",
+        //     symbolLayers: [
+        //       {
+        //         type: "path",
+        //         profile: "quad", //can be circle, quad
+        //         width: 10,
+        //         material: { color: "#f00" },
+        //       },
+        //     ],
+        //   },
+        // };
+
+        // mat san
+        const geojson_ground = new GeoJSONLayer({
+          url: "./ground.geojson",
+        });
+        geojson_ground.renderer = {
+          type: "simple",
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                type: "extrude",
+                size: 0.5,
+                material: {
+                  color: "#fff",
+                },
+              },
+            ],
+          },
+        };
+        // cot
+        const geojson_cot = new GeoJSONLayer({
+          url: "./cot.geojson",
+        });
+        geojson_cot.renderer = {
+          type: "simple",
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                type: "extrude",
+                size: 10,
+                material: {
+                  color: "#aaa",
+                },
+              },
+            ],
+          },
+        };
+
+        // // phan1 - unused
+        // const geojson_phan1 = new GeoJSONLayer({
+        //   url: "./phan1.geojson",
+        // });
+        // geojson_phan1.renderer = {
+        //   type: "simple",
+        //   symbol: {
+        //     type: "polygon-3d",
+        //     symbolLayers: [
+        //       {
+        //         type: "extrude",
+        //         size: 1.5,
+        //         material: {
+        //           color: "#abc",
+        //         },
+        //       },
+        //     ],
+        //   },
+        // };
+        // phan2  - chia khan dai thanh tung manh nho, ghep lai
+        const geojson_phan2 = new GeoJSONLayer({
+          url: "./phan2.geojson",
+        });
+        geojson_phan2.renderer = {
+          type: "simple",
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                type: "extrude",
+                size: 3,
+                material: {
+                  color: "#bcd",
+                },
+              },
+            ],
+          },
+        };
+
+        // -----display-----
+        const map = new Map({
+          basemap: "topo-vector",
+          ground: "world-elevation",
+          layers: [
+            // add layer from above here
+            // geojson_ground,
+            geojson_cot,
+            // geojson_phan1,
+            geojson_phan2,
+          ],
+        });
+
+        const view = new SceneView({
+          container: "viewDiv",
+          map: map,
+          camera: {
+            position: [105.76388933254574, 21.02047691759009, 1000],
+            heading: 0, //compass
+            tilt: 5,
+          },
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
